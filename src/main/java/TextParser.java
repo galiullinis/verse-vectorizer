@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextParser {
     private String path;
@@ -62,11 +64,13 @@ public class TextParser {
         int linesCount = 0;
         int linesLength = 0;
         int textVolume = 0;
+        int punctCount = 0;
         // normalize every line in file
         // delete punctuations
         // to get last char to find a rhyme
         while (( s = br.readLine()) != null ){
             linesCount += 1;
+            punctCount += punctCount(s);
             hs = s.replaceAll("\\p{Punct}", "");
             hs = hs.replaceAll("[—»]", "");
             if (hs.charAt(hs.length() - 1) == ' ') {
@@ -80,7 +84,7 @@ public class TextParser {
         setLineLength(linesLength/linesCount);
         findRhyme(lastChars, linesCount);
         setTextVolume(textVolume);
-
+        setPunctsCount(punctCount);
     }
 
     private void findRhyme(List<Character> lastChars, int linesCount){
@@ -100,6 +104,16 @@ public class TextParser {
     private int lineVolume(String line){
         int count = 0;
         count = line.split("\\s").length;
+        return count;
+    }
+
+    private int punctCount(String line){
+        Pattern pattern = Pattern.compile("[\\p{Punct}—]");
+        Matcher matcher = pattern.matcher(line);
+        int count = 0;
+        while (matcher.find()){
+            count++;
+        }
         return count;
     }
 }

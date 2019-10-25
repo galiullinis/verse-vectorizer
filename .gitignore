@@ -6,3 +6,4 @@ gen
 target
 src/main/resources/txt_files/**
 **/txt_files/
+/test_file.txt
