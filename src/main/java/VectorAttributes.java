@@ -4,7 +4,6 @@ public enum VectorAttributes {
     TEXT_VOLUME("text_volume"), // объем текста - количество слов
     RHYME("rhyme"); // рифма - отношение строк с одинаковыми окончаниями к количеству строк
 
-
     private String code;
 
     VectorAttributes(String code){
