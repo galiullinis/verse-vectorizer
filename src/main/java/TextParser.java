@@ -6,15 +6,15 @@ import java.util.regex.Pattern;
 
 public class TextParser {
     private String path;
-    private int textVolume;
-    private int punctsCount;
-    private int lineLength;
-    private float rhymeCoef;
+    private float textVolume = 0;
+    private float punctsCount = 0;
+    private float lineLength = 0;
+    private float rhymeCoef = 0;
 
     public TextParser(String path){
         this.path = path;
     }
-
+    public TextParser(){}
     public String getPath() {
         return path;
     }
@@ -23,27 +23,27 @@ public class TextParser {
         this.path = path;
     }
 
-    public int getTextVolume() {
+    public float getTextVolume() {
         return textVolume;
     }
 
-    public void setTextVolume(int textVolume) {
+    public void setTextVolume(float textVolume) {
         this.textVolume = textVolume;
     }
 
-    public int getPunctsCount() {
+    public float getPunctsCount() {
         return punctsCount;
     }
 
-    public void setPunctsCount(int punctsCount) {
+    public void setPunctsCount(float punctsCount) {
         this.punctsCount = punctsCount;
     }
 
-    public int getLineLength() {
+    public float getLineLength() {
         return lineLength;
     }
 
-    public void setLineLength(int lineLength) {
+    public void setLineLength(float lineLength) {
         this.lineLength = lineLength;
     }
 
@@ -73,16 +73,20 @@ public class TextParser {
             punctCount += punctCount(s);
             hs = s.replaceAll("\\p{Punct}", "");
             hs = hs.replaceAll("[—»]", "");
-            if (hs.charAt(hs.length() - 1) == ' ') {
-                hs = hs.substring(0, hs.length() - 1);
+            if (hs.length() > 0){
+                if (hs.charAt(hs.length() - 1) == ' ') {
+                    hs = hs.substring(0, hs.length() - 1);
+                }
+                lastChars.add(hs.charAt(hs.length() - 1));
+                textVolume += lineVolume(hs);
+                linesLength += hs.length();
             }
-            lastChars.add(hs.charAt(hs.length() - 1));
-            textVolume += lineVolume(hs);
-            linesLength += hs.length();
         }
 
-        setLineLength(linesLength/linesCount);
-        findRhyme(lastChars, linesCount);
+        if (linesCount != 0){
+            setLineLength(linesLength/linesCount);
+            findRhyme(lastChars, linesCount);
+        }
         setTextVolume(textVolume);
         setPunctsCount(punctCount);
     }
