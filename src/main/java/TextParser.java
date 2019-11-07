@@ -77,9 +77,11 @@ public class TextParser {
                 if (hs.charAt(hs.length() - 1) == ' ') {
                     hs = hs.substring(0, hs.length() - 1);
                 }
-                lastChars.add(hs.charAt(hs.length() - 1));
-                textVolume += lineVolume(hs);
-                linesLength += hs.length();
+                if (hs.length() > 0){
+                    lastChars.add(hs.charAt(hs.length() - 1));
+                    textVolume += lineVolume(hs);
+                    linesLength += hs.length();
+                }
             }
         }
 
